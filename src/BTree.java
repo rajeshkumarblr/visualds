@@ -91,7 +91,7 @@ public class BTree {
         return 1+ Math.max(height(nd.left),height(nd.right));
     }
     public node getCousinNode(node nd) { //Rajesh
-
+        return null;
     }
 
 
@@ -104,5 +104,6 @@ public class BTree {
             myTree.insert(60);
 
         myTree.display();
+        System.out.println("Tree height is " + myTree.height(myTree.root));
     }
 }
