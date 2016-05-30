@@ -102,6 +102,9 @@ public class BTree {
             myTree.insert(50);
             myTree.insert(40);
             myTree.insert(60);
+            myTree.insert(35);
+            myTree.insert(46);
+            myTree.insert(65);
 
         myTree.display();
         System.out.println("Tree height is " + myTree.height(myTree.root));
