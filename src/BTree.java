@@ -1,4 +1,5 @@
-public class BTree {
+
+public class BTree{
 
     node root;
 
@@ -25,8 +26,6 @@ public class BTree {
             isLeft = false;
         }
     }
-
-
 
     public InsertPosNode findInsertPosNode(int data) {
         node tmp = root;
@@ -80,13 +79,19 @@ public class BTree {
 
     }
 
-    public int height() {  //Ram
-
-
+    public int height(node nd) {  //Ram
+        if(nd==null){// End recursive function when node.left or node.right is null.
+            // The children of leaf nodes are null. Therefore this is saying that once we've gone past the leaves, there are no further nodes.
+            return 0;
+        }
+        //The current node adds a height of 1 to the height of the subtree currently being calculated.
+        // We recursively calculate the height of the left subtree (node.left) and right subtree (node.right).
+        // Since we're calculating the maximum depth, we take the maximum of these two depths.
+        return 1+ Math.max(height(nd.left),height(nd.right));
     }
 
     public node getCousinNode(node nd) { //Rajesh
-
+        return null;
     }
 
 
@@ -97,7 +102,13 @@ public class BTree {
             myTree.insert(50);
             myTree.insert(40);
             myTree.insert(60);
+            myTree.insert(66);
+            myTree.insert(70);
+            myTree.insert(35);
 
         myTree.display();
+        System.out.println(myTree.height(myTree.root));
     }
+
+
 }
