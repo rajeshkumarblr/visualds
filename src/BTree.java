@@ -1,7 +1,7 @@
 
 public class BTree{
 
-    node root;
+    private node root;
 
     BTree() {
         root = null;
@@ -50,7 +50,6 @@ public class BTree{
         InsertPosNode insNodePos = findInsertPosNode(data);
         if (insNodePos.insertNodePoint == null) {
             root = new node(data);
-            return;
         } else {
             node insNode = insNodePos.insertNodePoint;
             if (insNodePos.isLeft) {
@@ -90,13 +89,37 @@ public class BTree{
         return 1+ Math.max(height(nd.left),height(nd.right));
     }
 
-    public node getCousinNode(node nd) { //Rajesh
-        return null;
+    //Get the cousin node, the node that is in the corresponding position in the tree in the other half of the tree
+    public node getCousinNode(int data) { //Rajesh
+
+        //Start with rootNode for both the node passed and the cousin Node
+        node followNode = root;
+        node thisNode = root;
+        node cousinNode = null;
+
+        // Algo. start with root and go in one direction towards the node that is passed from root
+        // follow the exact opposite direction at each step for finding cousinNode
+        while ((followNode != null) && (thisNode != null)) {
+            cousinNode = followNode;
+            if (data < thisNode.data) {
+                //if data is less go left
+                thisNode = thisNode.left;
+                // and go right for cousin node
+                followNode = followNode.right;
+            } else {
+                //if data is not less right
+                thisNode = thisNode.right;
+                //and go left for cousin node
+                followNode = followNode.left;
+            }
+        }
+        //return the cousinNode
+        return  cousinNode;
     }
 
 
     public static void main(String[] args) {
-	// write your code here
+
         BTree myTree = new BTree();
 
             myTree.insert(50);
@@ -108,7 +131,24 @@ public class BTree{
 
         myTree.display();
         System.out.println(myTree.height(myTree.root));
+            myTree.insert(35);
+            myTree.insert(45);
+            myTree.insert(55);
+            myTree.insert(65);
+
+        myTree.display();
+
+            int val = 35;
+            node cousinNode = myTree.getCousinNode(val);
+            if (cousinNode != null) {
+                System.out.println("cousin Node for " + val + " is: " + cousinNode.data );
+            }
+
+            val = 55;
+            cousinNode = myTree.getCousinNode(val);
+            if (cousinNode != null) {
+                System.out.println("cousin Node for " + val + " is: " + cousinNode.data );
+            }
+
     }
-
-
 }
