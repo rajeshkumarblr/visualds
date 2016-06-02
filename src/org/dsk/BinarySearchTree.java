@@ -4,6 +4,9 @@ package org.dsk;
 // Refer to this stack flow discussion: http://stackoverflow.com/questions/2071929/generics-and-sorting-in-java/2071969#2071969
 // and this http://stackoverflow.com/questions/2081663/how-to-set-constraints-on-generic-types-in-java
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BinarySearchTree<T extends Comparable<? super T>> {
 
     private node root;
@@ -82,6 +85,63 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
 
     public void display() {
         inorder(root);
+
+    }
+
+    public List<node> getnodeAt(int lvl) {
+
+        List<node> nodesatLevel = null;
+        /*
+            If the level is 0, return root node
+         */
+        if (lvl == 0) {
+            nodesatLevel = new ArrayList<node>(1);
+            nodesatLevel.add(root);
+        } else {
+            /*
+                iterate through all nodes calculating the depth of the traversal and pickup only nodes equialent to the leval input.
+             */
+            int depth = 0;
+            node thisnode = root, parentnode = root;
+            node leftChild = thisnode.left, rightchild = thisnode.right;
+            nodesatLevel = new ArrayList<node>();
+            while (((leftChild != null || rightchild != null) && depth < lvl)) {
+                depth++;
+                if (leftChild != null && depth == lvl) {
+                    nodesatLevel.add(leftChild);
+                }
+                if (rightchild != null && depth == lvl) {
+                    nodesatLevel.add(rightchild);
+                }
+                /*
+                    Since the while loop is done for <= level, there could be iterations where level does not match with current depth.
+                    In such cases, selecting left node.
+                 */
+                if (leftChild != null && (leftChild.left != null || leftChild.right != null)) {
+                    parentnode = thisnode;
+                    thisnode = leftChild;
+                    leftChild = thisnode.left;
+                    rightchild = thisnode.right;
+                } else if (rightchild != null && (rightchild.left != null || rightchild.right != null)) {
+                    parentnode = thisnode;
+                    thisnode = rightchild;
+                    leftChild = rightchild.left;
+                    rightchild = rightchild.right;
+                } else if (parentnode.right != null) {
+                    // parentnode = parentnode.right;
+                    if ((parentnode.right.left != null && !nodesatLevel.contains(parentnode.right.left)) || (parentnode.right.right != null && !nodesatLevel.contains(parentnode.right.right))) {
+                        thisnode = parentnode.right;
+                        leftChild = thisnode.left;
+                        rightchild = thisnode.right;
+                        depth--;
+                    }
+                }
+            }
+
+
+        }
+
+        return nodesatLevel;
 
     }
 
