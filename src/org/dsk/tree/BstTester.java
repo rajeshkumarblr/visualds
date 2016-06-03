@@ -1,4 +1,4 @@
-package org.dsk;
+package org.dsk.tree;
 
 import java.util.List;
 
