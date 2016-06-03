@@ -29,12 +29,12 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
     class InsertPosNode {
         node insertNodePoint;
         boolean isLeft;
+
         InsertPosNode() {
             insertNodePoint = null;
             isLeft = false;
         }
     }
-
 
 
     public InsertPosNode findInsertPosNode(T data) {
@@ -74,6 +74,47 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
 
     }
 
+    public List<node> findnodesAt(int level) {
+        List<node> levelNodesHolder = new ArrayList<node>();
+        findNodesAt(root, level, null,levelNodesHolder);
+        return levelNodesHolder;
+    }
+
+    /**
+     * takes the node to start with and walks to the left of the tree follower by right of tree.
+     *
+     * Meanwhile it also keeps tracks of the current level using
+     * currentDepth and when requesteLevel matches currentDepth, node is added to the list collection.
+     *
+     * recursion stops when the node is null (or) currentDepth is greater than requested level. (Whichever is earlier)
+     *
+     * @param n
+     * @param level
+     * @param currentDepth
+     * @param collection
+     */
+    private void findNodesAt(node n, int level, Integer currentDepth,List<node> collection) {
+        if (n == null) {
+            currentDepth--;
+            return;
+        } else {
+            if (currentDepth == null) {
+                currentDepth = 0;
+            }else{
+                currentDepth++;
+            }
+        }
+
+        if(level == currentDepth){
+            collection.add(n);
+        }
+
+        else if(currentDepth<level) {
+            findNodesAt(n.left, level, currentDepth,collection);
+            findNodesAt(n.right, level, currentDepth,collection);
+        }
+    }
+
     public void inorder(node nd) {
         if (nd == null)
             return;
@@ -88,72 +129,17 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
 
     }
 
-    public List<node> getnodeAt(int lvl) {
 
-        List<node> nodesatLevel = null;
-        /*
-            If the level is 0, return root node
-         */
-        if (lvl == 0) {
-            nodesatLevel = new ArrayList<node>(1);
-            nodesatLevel.add(root);
-        } else {
-            /*
-                iterate through all nodes calculating the depth of the traversal and pickup only nodes equialent to the leval input.
-             */
-            int depth = 0;
-            node thisnode = root, parentnode = root;
-            node leftChild = thisnode.left, rightchild = thisnode.right;
-            nodesatLevel = new ArrayList<node>();
-            while (((leftChild != null || rightchild != null) && depth < lvl)) {
-                depth++;
-                if (leftChild != null && depth == lvl) {
-                    nodesatLevel.add(leftChild);
-                }
-                if (rightchild != null && depth == lvl) {
-                    nodesatLevel.add(rightchild);
-                }
-                /*
-                    Since the while loop is done for <= level, there could be iterations where level does not match with current depth.
-                    In such cases, selecting left node.
-                 */
-                if (leftChild != null && (leftChild.left != null || leftChild.right != null)) {
-                    parentnode = thisnode;
-                    thisnode = leftChild;
-                    leftChild = thisnode.left;
-                    rightchild = thisnode.right;
-                } else if (rightchild != null && (rightchild.left != null || rightchild.right != null)) {
-                    parentnode = thisnode;
-                    thisnode = rightchild;
-                    leftChild = rightchild.left;
-                    rightchild = rightchild.right;
-                } else if (parentnode.right != null) {
-                    // parentnode = parentnode.right;
-                    if ((parentnode.right.left != null && !nodesatLevel.contains(parentnode.right.left)) || (parentnode.right.right != null && !nodesatLevel.contains(parentnode.right.right))) {
-                        thisnode = parentnode.right;
-                        leftChild = thisnode.left;
-                        rightchild = thisnode.right;
-                        depth--;
-                    }
-                }
-            }
-
-
-        }
-
-        return nodesatLevel;
-
-    }
 
     public int height(node nd) {  //Ram
-        if(nd==null){// End recursive function when node.left or node.right is null.
+        if (nd == null) {// End recursive function when node.left or node.right is null.
             // The children of leaf nodes are null. Therefore this is saying that once we've gone past the leaves, there are no further nodes.
             return 0;
         }
         //The current node adds a height of 1 to the height of the subtree currently being calculated.
         // We recursively calculate the height of the left subtree (node.left) and right subtree (node.right).
         // Since we're calculating the maximum depth, we take the maximum of these two depths.
-        return 1+ Math.max(height(nd.left),height(nd.right));
+        return 1 + Math.max(height(nd.left), height(nd.right));
     }
 
     //Get the cousin node, the node that is in the corresponding position in the tree in the other half of the tree
@@ -182,6 +168,6 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
             }
         }
         //return the cousinNode
-        return  cousinNode;
+        return cousinNode;
     }
 }

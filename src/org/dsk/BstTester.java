@@ -19,30 +19,35 @@ public class BstTester {
         numberTree.insert(65);
         numberTree.insert(64);
         numberTree.insert(70);
-        numberTree.display();
+        numberTree.insert(30);
+        numberTree.insert(41);
+        numberTree.insert(29);
 
-        int val = 35;
-        BinarySearchTree.node cousinNode = numberTree.getCousinNode(val);
-        if (cousinNode != null) {
-            System.out.println("cousin Node for " + val + " is: " + cousinNode.data );
-        }
+        /**
+         *                   50
+         *              40   -       60
+         *           35   45 -   55      65
+         *         30  41               64   70
+         *      29
+         *
+         *
+         */
+        testTreeLevels(numberTree);
 
-        val = 55;
-        cousinNode = numberTree.getCousinNode(val);
-        if (cousinNode != null) {
-            System.out.println("cousin Node for " + val + " is: " + cousinNode.data );
-        }
 
+    }
 
+    void testTreeLevels(BinarySearchTree tree){
         List<BinarySearchTree<Integer>.node> nodesatLevelCollection = null;
-        int treeHieght = numberTree.height(null);
-        for (int i = 0; i < treeHieght; i++) {
-            nodesatLevelCollection = numberTree.getnodeAt(i);
-            System.out.println("size of node at level[" + i + "] -> [" + nodesatLevelCollection.size() + "]. children are as follows");
-            nodesatLevelCollection.stream().forEach(n ->
-                            numberTree.inorder(n)
+        for (int i = 0; i < 5; i++) {
+            nodesatLevelCollection = tree.findnodesAt(i);
+            System.out.print("\nsize of node at level[" + i + "] -> [" + nodesatLevelCollection.size() + "].");
+            nodesatLevelCollection.stream().forEach(n -> {
+                        System.out.print("[" + n.data + "]");//numberTree.inorder(n);
+                    }
             );
         }
+        System.out.print("\n");
     }
 
     void testStringTree() {
@@ -61,14 +66,16 @@ public class BstTester {
         String val = "35";
         BinarySearchTree.node cousinNode = stringTree.getCousinNode(val);
         if (cousinNode != null) {
-            System.out.println("cousin Node for " + val + " is: " + cousinNode.data );
+            System.out.println("cousin Node for " + val + " is: " + cousinNode.data);
         }
 
         val = "55";
         cousinNode = stringTree.getCousinNode(val);
         if (cousinNode != null) {
-            System.out.println("cousin Node for " + val + " is: " + cousinNode.data );
+            System.out.println("cousin Node for " + val + " is: " + cousinNode.data);
         }
+
+        testTreeLevels(stringTree);
     }
 
     public static void main(String[] args) {
