@@ -129,7 +129,9 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
 
     }
 
-
+    public int height(){
+       return this.height(root);
+    }
 
     public int height(node nd) {  //Ram
         if (nd == null) {// End recursive function when node.left or node.right is null.
