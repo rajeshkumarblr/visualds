@@ -33,11 +33,12 @@ public class BstTester {
          *
          */
         testTreeLevels(numberTree);
+        testTreeMirror();
 
 
     }
 
-    void testTreeLevels(BinarySearchTree tree){
+    void testTreeLevels(BinarySearchTree tree) {
         List<BinarySearchTree<Integer>.node> nodesatLevelCollection = null;
         for (int i = 0; i < 5; i++) {
             nodesatLevelCollection = tree.findnodesAt(i);
@@ -49,6 +50,39 @@ public class BstTester {
         }
         System.out.print("\n");
     }
+
+    void testTreeMirror() {
+        /* Change a tree so that the roles of the  left and
+    right pointers are swapped at every node.
+
+ So the tree...
+       4
+      / \
+     2   5
+    / \
+   1   3
+
+ is changed to...
+       4
+      / \
+     5   2
+        / \
+       3   1
+*/
+        System.out.println("Mirror Tree Test Starts");
+        BinarySearchTree<Integer> tree = new BinarySearchTree<Integer>();
+        tree.insert(4);
+        tree.insert(2);
+        tree.insert(5);
+        tree.insert(1);
+        tree.insert(3);
+        testTreeLevels(tree);
+        BinarySearchTree mirrortree = tree.createMirror();
+        testTreeLevels(mirrortree);
+
+        System.out.println("Mirror Tree Test Ends");
+    }
+
 
     void testStringTree() {
         BinarySearchTree<String> stringTree = new BinarySearchTree<String>();

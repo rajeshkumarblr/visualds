@@ -7,7 +7,7 @@ package org.dsk;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BinarySearchTree<T extends Comparable<? super T>> {
+public class BinarySearchTree<T extends Comparable<? super T>> implements Cloneable {
 
     private node root;
 
@@ -76,16 +76,16 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
 
     public List<node> findnodesAt(int level) {
         List<node> levelNodesHolder = new ArrayList<node>();
-        findNodesAt(root, level, null,levelNodesHolder);
+        findNodesAt(root, level, null, levelNodesHolder);
         return levelNodesHolder;
     }
 
     /**
      * takes the node to start with and walks to the left of the tree follower by right of tree.
-     *
+     * <p>
      * Meanwhile it also keeps tracks of the current level using
      * currentDepth and when requesteLevel matches currentDepth, node is added to the list collection.
-     *
+     * <p>
      * recursion stops when the node is null (or) currentDepth is greater than requested level. (Whichever is earlier)
      *
      * @param n
@@ -93,26 +93,38 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
      * @param currentDepth
      * @param collection
      */
-    private void findNodesAt(node n, int level, Integer currentDepth,List<node> collection) {
+    private void findNodesAt(node n, int level, Integer currentDepth, List<node> collection) {
         if (n == null) {
             currentDepth--;
             return;
         } else {
             if (currentDepth == null) {
                 currentDepth = 0;
-            }else{
+            } else {
                 currentDepth++;
             }
         }
 
-        if(level == currentDepth){
+        if (level == currentDepth) {
             collection.add(n);
+        } else if (currentDepth < level) {
+            findNodesAt(n.left, level, currentDepth, collection);
+            findNodesAt(n.right, level, currentDepth, collection);
+        }
+    }
+
+    private BinarySearchTree<T> createMirrorView(BinarySearchTree<T> sourceTree) {
+        if (sourceTree.root == null) {
+            return null;
+        }
+        BinarySearchTree<T> destinationTree = new BinarySearchTree<T>();
+        destinationTree.root = sourceTree.root;
+
+        while (root.left != null && root.right != null) {
+
         }
 
-        else if(currentDepth<level) {
-            findNodesAt(n.left, level, currentDepth,collection);
-            findNodesAt(n.right, level, currentDepth,collection);
-        }
+        return null;
     }
 
     public void inorder(node nd) {
@@ -124,11 +136,36 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
         inorder(nd.right);
     }
 
+    public BinarySearchTree<T> createMirror() {
+        BinarySearchTree<T> tree = null;
+        try {
+            tree = (BinarySearchTree<T>) this.clone();
+        } catch (CloneNotSupportedException e) {
+            System.out.print("Exception cloning the input tree" + e.getMessage());
+            tree = null;
+        }
+        if (tree != null)
+            this.mirror(tree.root);
+        return tree;
+    }
+
+    private void mirror(node nd) {
+        node thisnode = nd;
+        node tmp = nd.left;
+        nd.left = nd.right;
+        nd.right = tmp;
+        if (nd.left != null) {
+            mirror(nd.left);
+        }
+        if (nd.right != null) {
+            mirror(nd.right);
+        }
+    }
+
     public void display() {
         inorder(root);
 
     }
-
 
 
     public int height(node nd) {  //Ram
