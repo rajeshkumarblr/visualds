@@ -1,5 +1,7 @@
 package org.dsk.tree;
 
+import org.dsk.tree.BinarySearchTree;
+
 import java.util.List;
 
 /**

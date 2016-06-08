@@ -1,4 +1,4 @@
-package org.dsk;
+package org.dsk.tree;
 
 // We want the BST class to be passed any Class/type that can be comparable
 // Refer to this stack flow discussion: http://stackoverflow.com/questions/2071929/generics-and-sorting-in-java/2071969#2071969
