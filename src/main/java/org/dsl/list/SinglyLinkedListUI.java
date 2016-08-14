@@ -16,7 +16,8 @@ public class SinglyLinkedListUI {
         REVERSE_RECUSRION(4),
         REVERSE_LOOP(5),
         CREATE_STANDARD_LIST(6),
-        EXIT(7);
+        DUPLICATE_LIST(7),
+        EXIT(8);
 
         int choice;
         Choice(int choice) {
@@ -47,7 +48,8 @@ public class SinglyLinkedListUI {
             "4. Reverse List By recursion " +
             "5. Reverse List By loop " +
             "6. Create Standard List (100,200,..1000)  " +
-            "7. Exit";
+            "7. Duplicate List" +
+            "8. Exit";
 
     public Choice getNextChoice() {
         System.out.println(menuStr);
@@ -107,6 +109,10 @@ public class SinglyLinkedListUI {
                 case REVERSE_LOOP:
                     singlyLinkedList.reverse(false);
                     singlyLinkedList.display();
+                    break;
+                case DUPLICATE_LIST:
+                    SinglyLinkedList dupList = SinglyLinkedList.duplicateList(singlyLinkedList);
+                    dupList.display();
                     break;
                 case EXIT:
                     shouldExit = true;

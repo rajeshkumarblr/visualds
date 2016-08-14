@@ -20,6 +20,24 @@ public class SinglyLinkedList<T> {
         count = 0;
     }
 
+    public static SinglyLinkedList duplicateList(SinglyLinkedList list) {
+        SinglyLinkedList dupList = new SinglyLinkedList();
+        dupList.head  = null;
+        if (list.head != null) {
+            SinglyLinkedList.node tmp = list.head;
+            dupList.head = dupList.new node(list.head.data);
+            SinglyLinkedList.node newListNode = dupList.head;
+            while (tmp != null) {
+                SinglyLinkedList.node newnode = dupList.new node(tmp.data);
+                newListNode.next = newnode;
+                newListNode = newnode;
+                tmp = tmp.next;
+            }
+            dupList.tail = newListNode;
+        }
+        return  dupList;
+    }
+
     public void add(T data) {
         node newnode = new node(data);;
         if (head == null) {
@@ -117,8 +135,6 @@ public class SinglyLinkedList<T> {
         }
         head = prev;
     }
-
-
 
     private node reverseByRecursion(node current , node prev) {
         if (current != null) {
