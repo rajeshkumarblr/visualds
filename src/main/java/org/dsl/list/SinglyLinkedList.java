@@ -105,7 +105,7 @@ public class SinglyLinkedList<T> {
         System.out.println("");
     }
 
-    public void reverse() {
+    private void reverseByLooping() {
         node current = head;
         node prev = null;
         tail = head;
@@ -116,6 +116,26 @@ public class SinglyLinkedList<T> {
             current = tmp;
         }
         head = prev;
+    }
+
+
+
+    private node reverseByRecursion(node current , node prev) {
+        if (current != null) {
+            reverseByRecursion(current.next, current).next = prev;
+            return  prev;
+        } else {
+            head = prev;
+            return prev;
+        }
+    }
+
+    public void reverse(boolean isRecursive) {
+        if (isRecursive) {
+            tail = reverseByRecursion(head, null);
+        } else {
+            reverseByLooping();
+        }
     }
 
 }

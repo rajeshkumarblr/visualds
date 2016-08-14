@@ -13,9 +13,10 @@ public class SinglyLinkedListUI {
         ADD(1),
         REMOVE(2),
         DISPLAY(3),
-        REVERSE(4),
-        STANDARD_LIST(5),
-        EXIT(6);
+        REVERSE_RECUSRION(4),
+        REVERSE_LOOP(5),
+        CREATE_STANDARD_LIST(6),
+        EXIT(7);
 
         int choice;
         Choice(int choice) {
@@ -43,9 +44,10 @@ public class SinglyLinkedListUI {
             "1. Add data  " +
             "2. Remove data  " +
             "3. Display data  " +
-            "4. Reverse List  " +
-            "5. Create Standard List (100,200,..1000)  " +
-            "6. Exit";
+            "4. Reverse List By recursion " +
+            "5. Reverse List By loop " +
+            "6. Create Standard List (100,200,..1000)  " +
+            "7. Exit";
 
     public Choice getNextChoice() {
         System.out.println(menuStr);
@@ -70,6 +72,9 @@ public class SinglyLinkedListUI {
         SinglyLinkedListUI ui = new SinglyLinkedListUI();
         boolean shouldExit = false;
 
+        //Create an initial list of 100,200,300...1000 for convenience.
+        ui.createStandardList();
+        singlyLinkedList.display();
         do {
             Choice ch =ui.getNextChoice();
             if (ch == null) {
@@ -91,13 +96,18 @@ public class SinglyLinkedListUI {
                 case DISPLAY:
                     singlyLinkedList.display();
                     break;
-                case STANDARD_LIST:
+                case CREATE_STANDARD_LIST:
                     ui.createStandardList();
                     singlyLinkedList.display();
                     break;
-                case REVERSE:
-                    singlyLinkedList.reverse();
+                case REVERSE_RECUSRION:
+                    singlyLinkedList.reverse(true);
                     singlyLinkedList.display();
+                    break;
+                case REVERSE_LOOP:
+                    singlyLinkedList.reverse(false);
+                    singlyLinkedList.display();
+                    break;
                 case EXIT:
                     shouldExit = true;
                     break;
