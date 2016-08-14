@@ -13,7 +13,9 @@ public class SinglyLinkedListUI {
         ADD(1),
         REMOVE(2),
         DISPLAY(3),
-        EXIT(4);
+        REVERSE(4),
+        STANDARD_LIST(5),
+        EXIT(6);
 
         int choice;
         Choice(int choice) {
@@ -38,10 +40,12 @@ public class SinglyLinkedListUI {
     }
 
     private static final String menuStr = "Enter the singly linked list operation choice:\n" +
-            "1. Add data\n" +
-            "2. Remove data\n" +
-            "3. Display data\n" +
-            "4. Exit";
+            "1. Add data  " +
+            "2. Remove data  " +
+            "3. Display data  " +
+            "4. Reverse List  " +
+            "5. Create Standard List (100,200,..1000)  " +
+            "6. Exit";
 
     public Choice getNextChoice() {
         System.out.println(menuStr);
@@ -54,14 +58,24 @@ public class SinglyLinkedListUI {
         return scanner.nextInt();
     }
 
-    public static void main(String[] args) {
+    public void createStandardList() {
+        for (int i = 100; i <= 1000; i+=100) {
+            singlyLinkedList.add(i);
+        }
+    }
 
-        SinglyLinkedList<Integer> singlyLinkedList = new SinglyLinkedList<Integer>();
+    static SinglyLinkedList<Integer> singlyLinkedList = new SinglyLinkedList<Integer>();
+
+    public static void main(String[] args) {
         SinglyLinkedListUI ui = new SinglyLinkedListUI();
         boolean shouldExit = false;
 
         do {
             Choice ch =ui.getNextChoice();
+            if (ch == null) {
+                System.out.println("Invalid choice:");
+                continue;
+            }
             int val = 0;
             switch (ch) {
                 case ADD:
@@ -77,6 +91,13 @@ public class SinglyLinkedListUI {
                 case DISPLAY:
                     singlyLinkedList.display();
                     break;
+                case STANDARD_LIST:
+                    ui.createStandardList();
+                    singlyLinkedList.display();
+                    break;
+                case REVERSE:
+                    singlyLinkedList.reverse();
+                    singlyLinkedList.display();
                 case EXIT:
                     shouldExit = true;
                     break;

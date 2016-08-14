@@ -13,9 +13,11 @@ public class SinglyLinkedList<T> {
 
     node head;
     node tail;
+    int count;
 
     SinglyLinkedList() {
         head = tail = null;
+        count = 0;
     }
 
     public void add(T data) {
@@ -26,6 +28,7 @@ public class SinglyLinkedList<T> {
             tail.next = newnode;
             tail = newnode;
         }
+        count++;
     }
 
     private node findPrevNode(T data) {
@@ -59,15 +62,16 @@ public class SinglyLinkedList<T> {
 
     public boolean remove(T data) {
         boolean isRemoved = false;
-        // Check if the data to be removed is at the head node
+        // Check if the data to be removed is at the head node.
         if ((head != null) && (head.data == data)) {
+            // If this is the only node in tree update tail
             if (head == tail) {
                 tail = tail.next;
             }
             head = head.next;
             isRemoved = true;
         } else {
-            // Check if the data to be removed is at the tail node
+            // Check if the data to be removed is at the tail node.
             node prevNode = findPrevNode(data);
             if (prevNode == tail) {
                 tail = prevNode;
@@ -81,6 +85,9 @@ public class SinglyLinkedList<T> {
                 }
                 isRemoved = true;
             }
+        }
+        if (isRemoved) {
+            count--;
         }
         return isRemoved;
     }
@@ -96,6 +103,19 @@ public class SinglyLinkedList<T> {
             tmp = tmp.next;
         }
         System.out.println("");
+    }
+
+    public void reverse() {
+        node current = head;
+        node prev = null;
+        tail = head;
+        while (current != null) {
+            node tmp = current.next;
+            current.next = prev;
+            prev = current;
+            current = tmp;
+        }
+        head = prev;
     }
 
 }
