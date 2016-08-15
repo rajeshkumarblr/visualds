@@ -8,7 +8,7 @@ public class Bst<T extends Comparable<T>> {
         root = null;
     }
 
-    class Node<T extends Comparable<T>> {
+    class Node<T extends Comparable<T>> implements PrintableNode {
         T data;
         Node left;
         Node right;
@@ -16,6 +16,18 @@ public class Bst<T extends Comparable<T>> {
         Node(T data) {
             this.data = data;
             left = right = null;
+        }
+
+        public PrintableNode getLeft() {
+            return left;
+        }
+
+        public PrintableNode getRight() {
+            return right;
+        }
+
+        public String getText() {
+            return data.toString();
         }
     }
 
@@ -91,7 +103,7 @@ public class Bst<T extends Comparable<T>> {
             int rheight = height(root.right);
             return Math.max(lheight,rheight) + 1;
         } else {
-            return 0;
+            return -1;
         }
     }
 

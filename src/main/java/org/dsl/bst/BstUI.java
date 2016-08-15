@@ -9,33 +9,16 @@ public class BstUI {
 
         Bst myTree = new Bst();
 
-        myTree.insert(50);
-        myTree.insert(40);
-        myTree.insert(60);
-        myTree.insert(35);
-        myTree.insert(45);
-        myTree.insert(55);
-        myTree.insert(65);
+        for (int i=0;i<10; i++) {
+            int val = (int)(Math.random() * (100-1)) + 1;
+            myTree.insert(val);
+        }
 
-        //myTree.display();
-        BstPrinter.printNode(myTree.getRoot());
-        //BstPrinter.printNode(test2());
-
+        TreePrinter.print(myTree.getRoot());
 
         int ht = myTree.getHeight();
         System.out.println("ht="+ht);
 
-        int val = 35;
-        Bst.Node cousinNode = myTree.getCousinNode(val);
-        if (cousinNode != null) {
-            System.out.println("cousin Node for " + val + " is: " + cousinNode.data );
-        }
-
-        val = 55;
-        cousinNode = myTree.getCousinNode(val);
-        if (cousinNode != null) {
-            System.out.println("cousin Node for " + val + " is: " + cousinNode.data );
-        }
 
     }
 
