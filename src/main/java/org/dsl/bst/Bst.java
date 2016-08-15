@@ -1,5 +1,7 @@
 package org.dsl.bst;
 
+import java.util.*;
+
 public class Bst<T extends Comparable<T>> {
 
     private Node root;
@@ -105,6 +107,29 @@ public class Bst<T extends Comparable<T>> {
         } else {
             return -1;
         }
+    }
+
+    ArrayList<Node> getLevelOrderNodes(Node root) {
+        if (root == null) {
+            return  null;
+        }
+        ArrayList<Node> nodes = new ArrayList<Node>();
+        nodes.add(root);
+        int index = 0;
+        do {
+            Node current = nodes.get(index);
+            if (current != null) {
+                if (current.left != null) {
+                    nodes.add(current.left);
+                }
+                if (current.right != null) {
+                    nodes.add(current.right);
+                }
+            }
+            index++;
+        } while (index < nodes.size());
+
+        return nodes;
     }
 
     public int getHeight() {  //Ram

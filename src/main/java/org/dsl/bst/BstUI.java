@@ -1,5 +1,7 @@
 package org.dsl.bst;
 
+import java.util.ArrayList;
+
 /**
  * Created by rajesh on 14/8/16.
  */
@@ -19,6 +21,10 @@ public class BstUI {
         int ht = myTree.getHeight();
         System.out.println("ht="+ht);
 
+        ArrayList<Bst.Node> nodes = myTree.getLevelOrderNodes(myTree.getRoot());
+        for (Bst.Node node : nodes) {
+            System.out.printf("%d ",node.data);
+        }
 
     }
 
