@@ -165,5 +165,24 @@ public class Bst<T extends Comparable<T>> {
     }
 
 
+    Node prevBstNode = null;
+
+    /** Check if a given tree is a BST. How to check that?
+     * Simple, do an inorder traversal of the tree and make sure if the data you encounter are sorted
+     * (i.e, the previous node's value in inorder traversal is less than current node's value.
+     * @param root
+     * @return flag that indicates if this is a BST or not.
+     */
+    boolean checkBST(Node root) {
+        boolean isBST = true;
+        if (root != null) {
+            checkBST(root.left);
+            if (prevBstNode != null) {
+                isBST = (root.data.compareTo(prevBstNode.data) > 0);
+            }
+            checkBST(root.right);
+        }
+        return isBST;
+    }
 
 }

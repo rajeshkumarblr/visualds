@@ -11,10 +11,16 @@ public class BstUI {
 
         Bst myTree = new Bst();
 
-        for (int i=0;i<10; i++) {
-            int val = (int)(Math.random() * (100-1)) + 1;
+        for (int i=0;i<5; i++) {
+            int val = (int)(Math.random() * (50-1)) + 1;
             myTree.insert(val);
         }
+        for (int i=5;i<10; i++) {
+            int val = (int)(Math.random() * (100-50)) + 1;
+            myTree.insert(val);
+        }
+
+        System.out.println("CheckBST:" + myTree.checkBST(myTree.getRoot()));
 
         TreePrinter.print(myTree.getRoot());
 
