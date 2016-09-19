@@ -1,4 +1,6 @@
-package org.dsl.bst;
+package org.dsl.bst.consoleui;
+
+import org.dsl.bst.BstNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +15,12 @@ public class TreePrinter {
      * @param root
      *            tree root node
      */
-    public static void print(PrintableNode root)
+    public static void print(BstNode root)
     {
         List<List<String>> lines = new ArrayList<List<String>>();
 
-        List<PrintableNode> level = new ArrayList<PrintableNode>();
-        List<PrintableNode> next = new ArrayList<PrintableNode>();
+        List<BstNode> level = new ArrayList<BstNode>();
+        List<BstNode> next = new ArrayList<BstNode>();
 
         level.add(root);
         int nn = 1;
@@ -30,7 +32,7 @@ public class TreePrinter {
 
             nn = 0;
 
-            for (PrintableNode n : level) {
+            for (BstNode n : level) {
                 if (n == null) {
                     line.add(null);
 
@@ -53,7 +55,7 @@ public class TreePrinter {
 
             lines.add(line);
 
-            List<PrintableNode> tmp = level;
+            List<BstNode> tmp = level;
             level = next;
             next = tmp;
             next.clear();

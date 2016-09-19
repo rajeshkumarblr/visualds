@@ -6,11 +6,11 @@ public class Bst<T extends Comparable<T>> {
 
     private Node root;
 
-    Bst() {
+    public Bst() {
         root = null;
     }
 
-    class Node<T extends Comparable<T>> implements PrintableNode {
+    class Node<T extends Comparable<T>> implements BstNode {
         T data;
         Node left;
         Node right;
@@ -20,11 +20,11 @@ public class Bst<T extends Comparable<T>> {
             left = right = null;
         }
 
-        public PrintableNode getLeft() {
+        public BstNode getLeft() {
             return left;
         }
 
-        public PrintableNode getRight() {
+        public BstNode getRight() {
             return right;
         }
 
@@ -183,6 +183,22 @@ public class Bst<T extends Comparable<T>> {
             checkBST(root.right);
         }
         return isBST;
+    }
+
+    public static Bst<Integer> createRandomeBst() {
+        Bst<Integer> tree = new Bst<Integer>();
+        tree.insert(50);
+
+        for (int i=0;i<5; i++) {
+            int val = (int)(Math.random() * (50-1)) + 1;
+            tree.insert(val);
+        }
+
+        for (int i=5;i<10; i++) {
+            int val = (int)(Math.random() * 50) + 50;
+            tree.insert(val);
+        }
+        return tree;
     }
 
 }

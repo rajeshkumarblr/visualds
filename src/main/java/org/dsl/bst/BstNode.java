@@ -1,14 +1,14 @@
 package org.dsl.bst;
 
-/** Node that can be printed */
-public interface PrintableNode
+/** A simple interface for displaying the  BST */
+public interface BstNode
 {
     /** Get left child */
-    PrintableNode getLeft();
+    BstNode getLeft();
 
 
     /** Get right child */
-    PrintableNode getRight();
+    BstNode getRight();
 
 
     /** Get text to be printed */
