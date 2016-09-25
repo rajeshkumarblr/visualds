@@ -33,22 +33,21 @@ public class Bst<T extends Comparable<T>> {
         }
     }
 
-    class InsertPosNode {
-        Node insertNodePoint;
+    class InsertNodePosition {
+        Node parentNode;
         boolean isLeft;
-        InsertPosNode() {
-            insertNodePoint = null;
+        InsertNodePosition() {
+            parentNode = null;
             isLeft = false;
         }
     }
 
-
-    public InsertPosNode findInsertPosNode(T data) {
+    public InsertNodePosition findInsertPosNode(T data) {
         Node<T> tmp = root;
 
-        InsertPosNode insNode = new InsertPosNode();
+        InsertNodePosition insNode = new InsertNodePosition();
         while (tmp != null) {
-            insNode.insertNodePoint = tmp;
+            insNode.parentNode = tmp;
             if (data.compareTo(tmp.data) < 0) {
             //if (data <= tmp.data) {
                 insNode.isLeft = true;
@@ -59,31 +58,101 @@ public class Bst<T extends Comparable<T>> {
             }
         }
         return insNode;
-
     }
 
     public  Node getRoot() {
         return root;
     }
 
-    public void insert(T data) {
+    public Node insert(T data) {
 
-        InsertPosNode insNodePos = findInsertPosNode(data);
-        if (insNodePos.insertNodePoint == null) {
-            root = new Node(data);
+        InsertNodePosition insNodePos = findInsertPosNode(data);
+        Node node;
+        if (insNodePos.parentNode == null) {
+            root = node = new Node(data);
         } else {
-            Node insNode = insNodePos.insertNodePoint;
+            Node insNode = insNodePos.parentNode;
             if (insNodePos.isLeft) {
-                insNode.left = new Node(data);
+                insNode.left = node = new Node(data);
             } else {
-                insNode.right = new Node(data);
+                insNode.right = node = new Node(data);
             }
+        }
+        return node;
+    }
+
+    private void removeNode(Node parentNode,Node successorNode, boolean isLeftChild) {
+        if (parentNode != null) {
+            if (isLeftChild) {
+                parentNode.left = successorNode;
+            } else {
+                parentNode.right = successorNode;
+            }
+        } else {
+            root = successorNode;
         }
     }
 
-    public void delete(int data) {
+    /** BST delete function */
+    public Node delete(T data) {
 
+        Node delNode = root;
+        Node parentNode = null;
+        boolean isLeftChild = false;
+
+        // First, find the node to be deleted in the BST and it's parent.
+        while (delNode != null) {
+            int result = delNode.data.compareTo(data);
+            if (result == 0) {
+                break;
+            } else if (result > 0) {
+                parentNode = delNode;
+                isLeftChild = true;
+                delNode = delNode.left;
+            }  else if (result < 0) {
+                parentNode = delNode;
+                isLeftChild = false;
+                delNode = delNode.right;
+            }
+        }
+
+        // If the data is not present in tree, nothing to do; return null.
+        if (delNode == null) {
+            return null;
+        }
+        Node successorNode = null;
+        // Check if the delNode is a Leaf node.
+        if (delNode.left == null && delNode.right == null) {
+            removeNode(parentNode, successorNode, isLeftChild);
+        } else if (delNode.left == null || delNode.right == null) {
+            // Check if the delNode's left or right child is null.
+            successorNode = (delNode.left != null) ? delNode.left : delNode.right;
+            removeNode(parentNode, successorNode, isLeftChild);
+        } else {
+            // So the delNode has both left and right child. So find the inorder predecessor node and replace delNode with it.
+            Node leftnode = delNode.left;
+            // First check if the right subtree of left child is empty. If so, left node is the successor node.
+            if (leftnode.right == null) {
+                removeNode(parentNode,delNode.left,isLeftChild);
+                leftnode.right = delNode.right;
+                successorNode = leftnode;
+            }else {
+                // Find the right most child of the leftnode.
+                Node maxparent = leftnode;
+                Node maxNode = leftnode.right;
+                while (maxNode.right != null) {
+                    maxparent = maxNode;
+                    maxNode = maxNode.right;
+                }
+                // Now remove the maxnode from it's parent.
+                removeNode(maxparent, null, false);
+                // Copy the max node's value into the delnode, effectively deleting delNode.
+                delNode.data = maxNode.data;
+            }
+        }
+        return  successorNode;
     }
+
 
     public void inorder(Node nd) {
         if (nd == null)

@@ -1,20 +1,26 @@
 package org.dsl.bst.gui;
 
 import org.dsl.bst.Bst;
+import org.dsl.bst.BstNode;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class BstDiag extends JDialog {
     private JPanel contentPane;
-    private BstPanel<Integer> bstPanel1;
-    private JTextField textData;
+    private BstPanel<Integer> bstPanel;
     private JButton insertButton;
-    private JButton getHeightButton;
     private JButton randomTreeButton;
-    private JButton deleteButton;
+    private JButton deleteNodeButton;
     private JLabel lblHeight;
+    private JButton findMirrorNodeButton;
+    private JButton findCommonAncestorButton;
+    private JButton inorderTraversalButton;
     Bst<Integer> tree;
 
     public BstDiag() {
@@ -22,9 +28,12 @@ public class BstDiag extends JDialog {
         setModal(true);
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
         insertButton.addActionListener(new InsertActionListener());
         randomTreeButton.addActionListener(new RandomActionListener());
-        getHeightButton.addActionListener(new GetHeightActionListener());
+        bstPanel.addMouseListener(new TreePanelMouseClickAdapter());
+        deleteNodeButton.addActionListener(new DeleteListener());
+        findMirrorNodeButton.addActionListener(new FindMirrorListener());
     }
 
     public static void main(String[] args) {
@@ -37,8 +46,40 @@ public class BstDiag extends JDialog {
     }
 
     private void createUIComponents() {
+        bstPanel = new BstPanel<Integer>();
         tree = Bst.createRandomeBst();
-        bstPanel1 = new BstPanel<Integer>(tree);
+        bstPanel.setTree(tree);
+        bstPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+    }
+
+    private class DeleteListener implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            ArrayList<BstNode> selectedNodes = bstPanel.getSelectedNodes();
+            for (BstNode node:selectedNodes) {
+                String textval = node.getText();
+                Integer val = Integer.parseInt(textval);
+                tree.delete(val);
+            }
+            bstPanel.repaint();
+            bstPanel.revalidate();
+        }
+    }
+
+    private static class FindMirrorListener implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+
+        }
+    }
+
+    private class TreePanelMouseClickAdapter extends MouseAdapter {
+        @Override
+        public void mouseClicked(MouseEvent mouseEvent) {
+            super.mouseClicked(mouseEvent);
+            Point point = mouseEvent.getPoint();
+            bstPanel.selectNode(point);
+            bstPanel.repaint();
+            bstPanel.revalidate();
+        }
     }
 
     private class GetHeightActionListener implements ActionListener {
@@ -50,20 +91,21 @@ public class BstDiag extends JDialog {
 
     private class InsertActionListener implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-            String textval = textData.getText();
+            String textval = JOptionPane.showInputDialog("Enter the data to be added ");
             Integer val = Integer.parseInt(textval);
-            tree.insert(val);
-            bstPanel1.repaint();
-            bstPanel1.revalidate();
+            BstNode node = tree.insert(val);
+            bstPanel.addNode(node);
+            bstPanel.repaint();
+            bstPanel.revalidate();
         }
     }
 
     private class RandomActionListener implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
             tree = Bst.createRandomeBst();
-            bstPanel1.setTree(tree);
-            bstPanel1.repaint();
-            bstPanel1.revalidate();
+            bstPanel.setTree(tree);
+            bstPanel.repaint();
+            bstPanel.revalidate();
         }
     }
 }

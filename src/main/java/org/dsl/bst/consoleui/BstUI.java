@@ -27,7 +27,8 @@ public class BstUI {
 
         //BstDiag diag = new BstDiag();
         //displayDiag(diag);
-        BstPanel<Integer> bstView = new BstPanel<Integer>(myTree);
+        BstPanel<Integer> bstView = new BstPanel<Integer>();
+        bstView.setTree(myTree);
         bstView.refresh();
 
 
