@@ -58,7 +58,7 @@ public class BstPanel<T extends Comparable<T>> extends JPanel {
     }
 
     private Dimension drawNode(Graphics g, int minX, int maxX,  int y, int yStep, BstNode node) {
-        String s = node.getText();
+        String s = node.getTextValue();
         g.setFont(font);
 
         FontMetrics fm = g.getFontMetrics();
@@ -121,21 +121,35 @@ public class BstPanel<T extends Comparable<T>> extends JPanel {
         }
     }
 
-    public BstNode selectNode(Point point) {
+    public void selectNode(Point point) {
+        boolean isNodeSelected = false;
         for (BstNode node: nodeRectData.keySet()) {
             BstNodeInfo info = nodeRectData.get(node);
             if (info.nodeRect.contains(point)) {
                 info.isSelected = !info.isSelected;
-                return node;
+                isNodeSelected = true;
+                break;
             }
         }
-        return null;
+        if (!isNodeSelected) {
+            for (BstNode node: nodeRectData.keySet()) {
+                BstNodeInfo info = nodeRectData.get(node);
+                info.isSelected = false;
+            }
+        }
     }
 
     public void selectNode(BstNode node) {
         BstNodeInfo info = nodeRectData.get(node);
         if (info != null) {
-            info.isSelected &= info.isSelected;
+            info.isSelected = !info.isSelected;
+        }
+    }
+
+    public void selectNode(BstNode node, boolean isSelected) {
+        BstNodeInfo info = nodeRectData.get(node);
+        if (info != null) {
+            info.isSelected = isSelected;
         }
     }
 

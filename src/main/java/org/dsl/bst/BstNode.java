@@ -1,16 +1,31 @@
 package org.dsl.bst;
 
-/** A simple interface for displaying the  BST */
-public interface BstNode
-{
-    /** Get left child */
-    BstNode getLeft();
+/**
+ * Created by rajesh on 25/9/16.
+ */
+public class BstNode<T extends Comparable<T>>{
+    T data;
+    BstNode left;
+    BstNode right;
 
+    BstNode(T data) {
+        this.data = data;
+        left = right = null;
+    }
 
-    /** Get right child */
-    BstNode getRight();
+    public BstNode getLeft() {
+        return  left;
+    }
 
+    public BstNode getRight() {
+        return  right;
+    }
 
-    /** Get text to be printed */
-    String getText();
+    public String getTextValue() {
+        return data.toString();
+    }
+
+    public T getData() {
+        return data;
+    }
 }

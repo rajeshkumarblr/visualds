@@ -4,37 +4,14 @@ import java.util.*;
 
 public class Bst<T extends Comparable<T>> {
 
-    private Node root;
+    private BstNode root;
 
     public Bst() {
         root = null;
     }
 
-    class Node<T extends Comparable<T>> implements BstNode {
-        T data;
-        Node left;
-        Node right;
-
-        Node(T data) {
-            this.data = data;
-            left = right = null;
-        }
-
-        public BstNode getLeft() {
-            return left;
-        }
-
-        public BstNode getRight() {
-            return right;
-        }
-
-        public String getText() {
-            return data.toString();
-        }
-    }
-
     class InsertNodePosition {
-        Node parentNode;
+        BstNode parentNode;
         boolean isLeft;
         InsertNodePosition() {
             parentNode = null;
@@ -43,7 +20,7 @@ public class Bst<T extends Comparable<T>> {
     }
 
     public InsertNodePosition findInsertPosNode(T data) {
-        Node<T> tmp = root;
+        BstNode<T> tmp = root;
 
         InsertNodePosition insNode = new InsertNodePosition();
         while (tmp != null) {
@@ -60,28 +37,28 @@ public class Bst<T extends Comparable<T>> {
         return insNode;
     }
 
-    public  Node getRoot() {
+    public BstNode getRoot() {
         return root;
     }
 
-    public Node insert(T data) {
+    public BstNode insert(T data) {
 
         InsertNodePosition insNodePos = findInsertPosNode(data);
-        Node node;
+        BstNode node;
         if (insNodePos.parentNode == null) {
-            root = node = new Node(data);
+            root = node = new BstNode(data);
         } else {
-            Node insNode = insNodePos.parentNode;
+            BstNode insNode = insNodePos.parentNode;
             if (insNodePos.isLeft) {
-                insNode.left = node = new Node(data);
+                insNode.left = node = new BstNode(data);
             } else {
-                insNode.right = node = new Node(data);
+                insNode.right = node = new BstNode(data);
             }
         }
         return node;
     }
 
-    private void removeNode(Node parentNode,Node successorNode, boolean isLeftChild) {
+    private void removeNode(BstNode parentNode, BstNode successorNode, boolean isLeftChild) {
         if (parentNode != null) {
             if (isLeftChild) {
                 parentNode.left = successorNode;
@@ -94,10 +71,10 @@ public class Bst<T extends Comparable<T>> {
     }
 
     /** BST delete function */
-    public Node delete(T data) {
+    public BstNode delete(T data) {
 
-        Node delNode = root;
-        Node parentNode = null;
+        BstNode delNode = root;
+        BstNode parentNode = null;
         boolean isLeftChild = false;
 
         // First, find the node to be deleted in the BST and it's parent.
@@ -120,7 +97,7 @@ public class Bst<T extends Comparable<T>> {
         if (delNode == null) {
             return null;
         }
-        Node successorNode = null;
+        BstNode successorNode = null;
         // Check if the delNode is a Leaf node.
         if (delNode.left == null && delNode.right == null) {
             removeNode(parentNode, successorNode, isLeftChild);
@@ -130,7 +107,7 @@ public class Bst<T extends Comparable<T>> {
             removeNode(parentNode, successorNode, isLeftChild);
         } else {
             // So the delNode has both left and right child. So find the inorder predecessor node and replace delNode with it.
-            Node leftnode = delNode.left;
+            BstNode leftnode = delNode.left;
             // First check if the right subtree of left child is empty. If so, left node is the successor node.
             if (leftnode.right == null) {
                 removeNode(parentNode,delNode.left,isLeftChild);
@@ -138,8 +115,8 @@ public class Bst<T extends Comparable<T>> {
                 successorNode = leftnode;
             }else {
                 // Find the right most child of the leftnode.
-                Node maxparent = leftnode;
-                Node maxNode = leftnode.right;
+                BstNode maxparent = leftnode;
+                BstNode maxNode = leftnode.right;
                 while (maxNode.right != null) {
                     maxparent = maxNode;
                     maxNode = maxNode.right;
@@ -148,13 +125,14 @@ public class Bst<T extends Comparable<T>> {
                 removeNode(maxparent, null, false);
                 // Copy the max node's value into the delnode, effectively deleting delNode.
                 delNode.data = maxNode.data;
+                successorNode = delNode;
             }
         }
         return  successorNode;
     }
 
 
-    public void inorder(Node nd) {
+    public void inorder(BstNode nd) {
         if (nd == null)
             return;
 
@@ -168,7 +146,7 @@ public class Bst<T extends Comparable<T>> {
 
     }
 
-    private int height(Node root) {
+    private int height(BstNode root) {
         if (root != null) {
             int lheight = height(root.left);
             int rheight = height(root.right);
@@ -178,15 +156,15 @@ public class Bst<T extends Comparable<T>> {
         }
     }
 
-    ArrayList<Node> getLevelOrderNodes(Node root) {
+    ArrayList<BstNode> getLevelOrderNodes(BstNode root) {
         if (root == null) {
             return  null;
         }
-        ArrayList<Node> nodes = new ArrayList<Node>();
+        ArrayList<BstNode> nodes = new ArrayList<BstNode>();
         nodes.add(root);
         int index = 0;
         do {
-            Node current = nodes.get(index);
+            BstNode current = nodes.get(index);
             if (current != null) {
                 if (current.left != null) {
                     nodes.add(current.left);
@@ -205,27 +183,27 @@ public class Bst<T extends Comparable<T>> {
         return height(root);
     }
 
-    //Get the cousin Node, the Node that is in the corresponding position in the tree in the other half of the tree
-    public Node getCousinNode(T data) { //Rajesh
+    //Get the cousin BstNode, the BstNode that is in the corresponding position in the tree in the other half of the tree
+    public BstNode getMirrorNode(BstNode node) {
 
-        //Start with rootNode for both the Node passed and the cousin Node
-        Node<T> followNode = root;
-        Node<T> thisNode = root;
-        Node<T> cousinNode = null;
+        //Start with rootNode for both the BstNode passed and the cousin BstNode
+        BstNode<T> followNode = root;
+        BstNode<T> thisNode = root;
+        BstNode<T> cousinNode = null;
 
-        // Algo. start with root and go in one direction towards the Node that is passed from root
+        // Algo. start with root and go in one direction towards the BstNode that is passed from root
         // follow the exact opposite direction at each step for finding cousinNode
         while ((followNode != null) && (thisNode != null)) {
             cousinNode = followNode;
-            if (data.compareTo(thisNode.data) < 0) {
+            if (node.data.compareTo(thisNode.data) < 0) {
                 //if data is less go left
                 thisNode = thisNode.left;
-                // and go right for cousin Node
+                // and go right for cousin BstNode
                 followNode = followNode.right;
             } else {
                 //if data is not less right
                 thisNode = thisNode.right;
-                //and go left for cousin Node
+                //and go left for cousin BstNode
                 followNode = followNode.left;
             }
         }
@@ -234,7 +212,7 @@ public class Bst<T extends Comparable<T>> {
     }
 
 
-    Node prevBstNode = null;
+    BstNode prevBstNode = null;
 
     /** Check if a given tree is a BST. How to check that?
      * Simple, do an inorder traversal of the tree and make sure if the data you encounter are sorted
@@ -242,7 +220,7 @@ public class Bst<T extends Comparable<T>> {
      * @param root
      * @return flag that indicates if this is a BST or not.
      */
-    boolean checkBST(Node root) {
+    boolean checkBST(BstNode root) {
         boolean isBST = true;
         if (root != null) {
             checkBST(root.left);

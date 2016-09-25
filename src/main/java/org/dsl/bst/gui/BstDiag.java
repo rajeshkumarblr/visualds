@@ -56,18 +56,26 @@ public class BstDiag extends JDialog {
         public void actionPerformed(ActionEvent actionEvent) {
             ArrayList<BstNode> selectedNodes = bstPanel.getSelectedNodes();
             for (BstNode node:selectedNodes) {
-                String textval = node.getText();
+                String textval = node.getTextValue();
                 Integer val = Integer.parseInt(textval);
-                tree.delete(val);
+                BstNode<Integer> successorNode = tree.delete(val);
+                bstPanel.selectNode(successorNode,true);
             }
             bstPanel.repaint();
             bstPanel.revalidate();
         }
     }
 
-    private static class FindMirrorListener implements ActionListener {
+    private class FindMirrorListener implements ActionListener {
         public void actionPerformed(ActionEvent actionEvent) {
-
+            ArrayList<BstNode> selectedNodes = bstPanel.getSelectedNodes();
+            if (selectedNodes != null && selectedNodes.size() > 0) {
+                BstNode node = selectedNodes.get(0);
+                BstNode bstNode = tree.getMirrorNode(node);
+                bstPanel.selectNode(bstNode);
+                bstPanel.repaint();
+                bstPanel.revalidate();
+            }
         }
     }
 

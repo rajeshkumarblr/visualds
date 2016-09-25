@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by rajesh on 15/8/16.
  */
-public class TreePrinter {
+public class TreePrinter<T extends Comparable<T>> {
     /**
      * Print a tree
      *
@@ -39,7 +39,7 @@ public class TreePrinter {
                     next.add(null);
                     next.add(null);
                 } else {
-                    String aa = n.getText();
+                    String aa = n.getTextValue();
                     line.add(aa);
                     if (aa.length() > widest) widest = aa.length();
 
