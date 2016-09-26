@@ -121,21 +121,31 @@ public class BstPanel<T extends Comparable<T>> extends JPanel {
         }
     }
 
+    public void clearSelection(BstNode selectNode) {
+        for (BstNode node: nodeRectData.keySet()) {
+            BstNodeInfo info = nodeRectData.get(node);
+            if (node != selectNode) {
+                info.isSelected = false;
+            }
+        }
+    }
+
     public void selectNode(Point point) {
         boolean isNodeSelected = false;
+        BstNode selectnode = null;
         for (BstNode node: nodeRectData.keySet()) {
             BstNodeInfo info = nodeRectData.get(node);
             if (info.nodeRect.contains(point)) {
                 info.isSelected = !info.isSelected;
                 isNodeSelected = true;
+                selectnode = node;
                 break;
             }
         }
         if (!isNodeSelected) {
-            for (BstNode node: nodeRectData.keySet()) {
-                BstNodeInfo info = nodeRectData.get(node);
-                info.isSelected = false;
-            }
+            clearSelection(null);
+        } else {
+            clearSelection(selectnode);
         }
     }
 
@@ -144,6 +154,7 @@ public class BstPanel<T extends Comparable<T>> extends JPanel {
         if (info != null) {
             info.isSelected = !info.isSelected;
         }
+        clearSelection(node);
     }
 
     public void selectNode(BstNode node, boolean isSelected) {

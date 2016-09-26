@@ -69,9 +69,26 @@ public class BstDiag extends JDialog {
         bstPanel.setBorder(BorderFactory.createBevelBorder(1));
     }
 
-    private static class InorderTraversalListener implements ActionListener {
+    private class InorderTraversalListener implements ActionListener, INodeVistor, Runnable{
         public void actionPerformed(ActionEvent actionEvent) {
+            Thread thr = new Thread(new InorderTraversalListener());
+            thr.start();
+        }
 
+        public void nodeVisited(BstNode node) {
+            bstPanel.selectNode(node);
+            refreshTreePanel();
+            addStatus(node.getTextValue() + ",",true,false);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void run() {
+            addStatus("Inorder traversal:",true,false);
+            tree.inorder(tree.getRoot(),this);
         }
     }
 
@@ -79,7 +96,7 @@ public class BstDiag extends JDialog {
         public void actionPerformed(ActionEvent actionEvent) {
             int ht = tree.getHeight();
             String text = "Tree Height is " + ht;
-            addStatus(text,true);
+            addStatus(text,true,true);
 
         }
     }
@@ -92,7 +109,7 @@ public class BstDiag extends JDialog {
                 Integer val = Integer.parseInt(textval);
                 BstNode<Integer> successorNode = tree.delete(val);
                 bstPanel.selectNode(successorNode,true);
-                addStatus("Node deleted: " + val + " replaced with: " + successorNode.getTextValue(), true);
+                addStatus("Node deleted: " + val + " replaced with: " + successorNode.getTextValue(), true, true);
             }
             refreshTreePanel();
         }
@@ -106,10 +123,10 @@ public class BstDiag extends JDialog {
                 BstNode mirrorNode = tree.getMirrorNode(node);
                 if (mirrorNode != null) {
                     String msg = "Mirror node for " + node.getTextValue() + " found:" + mirrorNode.getTextValue() + "\n";
-                    addStatus(msg,true);
+                    addStatus(msg,true, true);
                 } else {
                     String msg = "Mirror node for " + node.getTextValue() + " NOT found \n";
-                    addStatus(msg,false);
+                    addStatus(msg,false, true);
                 }
                 bstPanel.selectNode(mirrorNode);
                 refreshTreePanel();
@@ -133,7 +150,7 @@ public class BstDiag extends JDialog {
             Integer val = Integer.parseInt(textval);
             BstNode node = tree.insert(val);
             bstPanel.addNode(node);
-            addStatus("Added node: " + node.getTextValue(),true);
+            addStatus("Added node: " + node.getTextValue(),true, true);
             refreshTreePanel();
         }
     }
@@ -146,9 +163,11 @@ public class BstDiag extends JDialog {
         }
     }
 
-    private void addStatus(String msg, boolean isSuccess) {
+    private void addStatus(String msg, boolean isSuccess, boolean IsNewLine) {
         try {
-            msg += "\n";
+            if (IsNewLine) {
+                msg += "\n";
+            }
             if (isSuccess) {
                 docStyle.insertString(statusPane.getDocument().getLength(),msg,successStyle);
             } else {

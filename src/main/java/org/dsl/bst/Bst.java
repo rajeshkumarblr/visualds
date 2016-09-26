@@ -1,5 +1,7 @@
 package org.dsl.bst;
 
+import org.dsl.bst.gui.INodeVistor;
+
 import java.util.*;
 
 public class Bst<T extends Comparable<T>> {
@@ -132,18 +134,12 @@ public class Bst<T extends Comparable<T>> {
     }
 
 
-    public void inorder(BstNode nd) {
-        if (nd == null)
-            return;
-
-        inorder(nd.left);
-        System.out.println("" + nd.data + " ");
-        inorder(nd.right);
-    }
-
-    public void display() {
-        inorder(root);
-
+    public void inorder(BstNode nd, INodeVistor vistor) {
+        if (nd != null) {
+            inorder(nd.left, vistor);
+            vistor.nodeVisited(nd);
+            inorder(nd.right,vistor);
+        }
     }
 
     private int height(BstNode root) {
