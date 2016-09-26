@@ -122,7 +122,7 @@ public class Bst<T extends Comparable<T>> {
                     maxNode = maxNode.right;
                 }
                 // Now remove the maxnode from it's parent.
-                removeNode(maxparent, null, false);
+                removeNode(maxparent, maxNode.left, false);
                 // Copy the max node's value into the delnode, effectively deleting delNode.
                 delNode.data = maxNode.data;
                 successorNode = delNode;
@@ -152,7 +152,7 @@ public class Bst<T extends Comparable<T>> {
             int rheight = height(root.right);
             return Math.max(lheight,rheight) + 1;
         } else {
-            return -1;
+            return 0;
         }
     }
 
@@ -191,10 +191,16 @@ public class Bst<T extends Comparable<T>> {
         BstNode<T> thisNode = root;
         BstNode<T> cousinNode = null;
 
-        // Algo. start with root and go in one direction towards the BstNode that is passed from root
+        boolean isMirrorNodeFound = false;
+
+        // Algo: start with root and go in one direction towards the BstNode that is passed from root
         // follow the exact opposite direction at each step for finding cousinNode
-        while ((followNode != null) && (thisNode != null)) {
-            cousinNode = followNode;
+        while ((thisNode != null) && (followNode != null)) {
+
+            if (node.data.compareTo(thisNode.data) == 0) {
+                isMirrorNodeFound = true;
+                break;
+            }
             if (node.data.compareTo(thisNode.data) < 0) {
                 //if data is less go left
                 thisNode = thisNode.left;
@@ -208,6 +214,9 @@ public class Bst<T extends Comparable<T>> {
             }
         }
         //return the cousinNode
+        if (isMirrorNodeFound) {
+            cousinNode = followNode;
+        }
         return  cousinNode;
     }
 
