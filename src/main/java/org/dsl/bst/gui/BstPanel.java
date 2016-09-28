@@ -130,7 +130,7 @@ public class BstPanel<T extends Comparable<T>> extends JPanel {
         }
     }
 
-    public void selectNode(Point point) {
+    public void selectNode(Point point, boolean isMultipleSelection) {
         boolean isNodeSelected = false;
         BstNode selectnode = null;
         for (BstNode node: nodeRectData.keySet()) {
@@ -145,7 +145,9 @@ public class BstPanel<T extends Comparable<T>> extends JPanel {
         if (!isNodeSelected) {
             clearSelection(null);
         } else {
-            clearSelection(selectnode);
+            if (!isMultipleSelection) {
+                clearSelection(selectnode);
+            }
         }
     }
 

@@ -142,6 +142,22 @@ public class Bst<T extends Comparable<T>> {
         }
     }
 
+    public void preorder(BstNode nd, INodeVistor vistor) {
+        if (nd != null) {
+            vistor.nodeVisited(nd);
+            preorder(nd.left, vistor);
+            preorder(nd.right,vistor);
+        }
+    }
+
+    public void postorder(BstNode nd, INodeVistor vistor) {
+        if (nd != null) {
+            preorder(nd.left, vistor);
+            preorder(nd.right,vistor);
+            vistor.nodeVisited(nd);
+        }
+    }
+
     private int height(BstNode root) {
         if (root != null) {
             int lheight = height(root.left);
