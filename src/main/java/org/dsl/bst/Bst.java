@@ -1,6 +1,6 @@
 package org.dsl.bst;
 
-import org.dsl.bst.gui.INodeVistor;
+import org.dsl.bst.gui.INodeVisitor;
 
 import java.util.*;
 
@@ -134,7 +134,7 @@ public class Bst<T extends Comparable<T>> {
     }
 
 
-    public void inorder(BstNode nd, INodeVistor vistor) {
+    public void inorder(BstNode nd, INodeVisitor vistor) {
         if (nd != null) {
             inorder(nd.left, vistor);
             vistor.nodeVisited(nd);
@@ -142,7 +142,7 @@ public class Bst<T extends Comparable<T>> {
         }
     }
 
-    public void preorder(BstNode nd, INodeVistor vistor) {
+    public void preorder(BstNode nd, INodeVisitor vistor) {
         if (nd != null) {
             vistor.nodeVisited(nd);
             preorder(nd.left, vistor);
@@ -150,12 +150,27 @@ public class Bst<T extends Comparable<T>> {
         }
     }
 
-    public void postorder(BstNode nd, INodeVistor vistor) {
+    public void postorder(BstNode nd, INodeVisitor vistor) {
         if (nd != null) {
             preorder(nd.left, vistor);
             preorder(nd.right,vistor);
             vistor.nodeVisited(nd);
         }
+    }
+
+    public ArrayList<BstNode> levelOrder(BstNode node, INodeVisitor iNodeVisitor) {
+        ArrayList<BstNode> nodes = new ArrayList<BstNode>();
+        Queue<BstNode> queue = new  LinkedList();
+        queue.add(node);
+        while (!queue.isEmpty()) {
+            BstNode nd = queue.remove();
+            iNodeVisitor.nodeVisited(nd);
+            if (nd.getLeft() != null)
+                queue.add(nd.getLeft());
+            if (nd.getRight() != null)
+                queue.add(nd.getRight());
+        }
+        return nodes;
     }
 
     private int height(BstNode root) {

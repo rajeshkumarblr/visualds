@@ -22,12 +22,12 @@
           <text value="Add Node"/>
         </properties>
       </component>
-      <component id="916cc" class="javax.swing.JButton" binding="randomTreeButton" default-binding="true">
+      <component id="916cc" class="javax.swing.JButton" binding="btnRandomBST">
         <constraints>
           <grid row="1" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Create Random Tree"/>
+          <text value="Create Random BST"/>
         </properties>
       </component>
       <component id="f5b8f" class="javax.swing.JButton" binding="deleteNodeButton" default-binding="true">
@@ -36,22 +36,6 @@
         </constraints>
         <properties>
           <text value="Delete Node"/>
-        </properties>
-      </component>
-      <component id="da91d" class="javax.swing.JButton" binding="findMirrorNodeButton" default-binding="true">
-        <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Find Mirror Node"/>
-        </properties>
-      </component>
-      <component id="9d59c" class="javax.swing.JButton" binding="findCommonAncestorButton" default-binding="true">
-        <constraints>
-          <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Find common ancestor"/>
         </properties>
       </component>
       <component id="d4b4b" class="javax.swing.JButton" binding="btnTreeHeight">
@@ -83,7 +67,7 @@
       </scrollpane>
       <component id="d0b4d" class="javax.swing.JButton" binding="inorderTraversalButton" default-binding="true">
         <constraints>
-          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Inorder Traversal"/>
@@ -91,7 +75,7 @@
       </component>
       <component id="ae557" class="javax.swing.JButton" binding="btnPreorderTraversal">
         <constraints>
-          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Preorder Traversal"/>
@@ -99,10 +83,42 @@
       </component>
       <component id="ac0d7" class="javax.swing.JButton" binding="btnPostorderTraversal">
         <constraints>
-          <grid row="3" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Postorder Traversal"/>
+        </properties>
+      </component>
+      <component id="9d59c" class="javax.swing.JButton" binding="findCommonAncestorButton" default-binding="true">
+        <constraints>
+          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Find common ancestor"/>
+        </properties>
+      </component>
+      <component id="da91d" class="javax.swing.JButton" binding="findMirrorNodeButton" default-binding="true">
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Find Mirror Node"/>
+        </properties>
+      </component>
+      <component id="c66bf" class="javax.swing.JButton" binding="btnLevelOrderTraversal">
+        <constraints>
+          <grid row="2" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Levelorder Traversal"/>
+        </properties>
+      </component>
+      <component id="9e72d" class="javax.swing.JButton" binding="btnMirrorTree">
+        <constraints>
+          <grid row="3" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Mirror Tree"/>
         </properties>
       </component>
     </children>

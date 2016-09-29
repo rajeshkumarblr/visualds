@@ -28,4 +28,10 @@ public class BstNode<T extends Comparable<T>>{
     public T getData() {
         return data;
     }
+
+    public void swapLeftRight() {
+        BstNode tmp = left;
+        left = right;
+        right = tmp;
+    }
 }

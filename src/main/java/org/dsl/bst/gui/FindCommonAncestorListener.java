@@ -37,8 +37,15 @@ class FindCommonAncestorListener implements ActionListener {
             BstNode ancestorNode = null;
             while (currentNode1 == currentNode2) {
                 ancestorNode = currentNode1;
-                currentNode1 = getNextNodeInPathTo(node1,currentNode1);
-                currentNode2 = getNextNodeInPathTo(node2,currentNode2);
+                currentNode1 = getNextNodeInPathTo(node1, currentNode1);
+                if (currentNode1 == node1) {
+                }
+                if (currentNode2 != node2) {
+                    currentNode2 = getNextNodeInPathTo(node2, currentNode2);
+                }
+                if ((currentNode1 == null) || (currentNode2 == null)) {
+                    break;
+                }
             };
             if (ancestorNode != null) {
                 bstPanel.selectNode(ancestorNode);
@@ -48,6 +55,7 @@ class FindCommonAncestorListener implements ActionListener {
     }
 
     private BstNode getNextNodeInPathTo(BstNode destNode, BstNode currentNode) {
+        if (currentNode == null) return null;
         int result = destNode.getData().compareTo(currentNode.getData());
         if (result== 0) {
             return currentNode;

@@ -13,13 +13,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+import java.util.*;
 
 public class BstDiag extends JDialog {
     private JPanel contentPane;
     private BstPanel<Integer> bstPanel;
     private JButton insertButton;
-    private JButton randomTreeButton;
+    private JButton btnRandomBST;
     private JButton deleteNodeButton;
     private JButton findMirrorNodeButton;
     private JButton findCommonAncestorButton;
@@ -28,6 +28,8 @@ public class BstDiag extends JDialog {
     private JButton btnTreeHeight;
     private JButton btnPreorderTraversal;
     private JButton btnPostorderTraversal;
+    private JButton btnLevelOrderTraversal;
+    private JButton btnMirrorTree;
     Bst<Integer> tree;
     StyledDocument docStyle;
     Style failureStyle;
@@ -40,7 +42,7 @@ public class BstDiag extends JDialog {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         insertButton.addActionListener(new InsertActionListener());
-        randomTreeButton.addActionListener(new RandomActionListener());
+        btnRandomBST.addActionListener(new RandomActionListener());
         bstPanel.addMouseListener(new TreePanelMouseClickAdapter());
         deleteNodeButton.addActionListener(new DeleteListener());
         findMirrorNodeButton.addActionListener(new FindMirrorListener());
@@ -50,10 +52,12 @@ public class BstDiag extends JDialog {
         StyleConstants.setForeground(failureStyle, Color.red);
         successStyle = statusPane.addStyle("Success Style", null);
         StyleConstants.setForeground(successStyle, Color.MAGENTA);
-        inorderTraversalButton.addActionListener(new TraversalListener(TraversalType.INORDER_TRAVERSAL));
-        btnPreorderTraversal.addActionListener(new TraversalListener(TraversalType.PREORDER_TRAVERSAL));
-        btnPostorderTraversal.addActionListener(new TraversalListener(TraversalType.POSTORDER_TRAVERSAL));
+        inorderTraversalButton.addActionListener(new TraversalListener(this, TraversalListener.TraversalType.INORDER_TRAVERSAL));
+        btnPreorderTraversal.addActionListener(new TraversalListener(this, TraversalListener.TraversalType.PREORDER_TRAVERSAL));
+        btnPostorderTraversal.addActionListener(new TraversalListener(this, TraversalListener.TraversalType.POSTORDER_TRAVERSAL));
+        btnLevelOrderTraversal.addActionListener(new TraversalListener(this, TraversalListener.TraversalType.LEVELORDER_TRAVERSAL));
         findCommonAncestorButton.addActionListener(new FindCommonAncestorListener(this));
+        btnMirrorTree.addActionListener(new MirrorTreeListener(tree,bstPanel));
     }
 
     public static void main(String[] args) {
@@ -147,7 +151,7 @@ public class BstDiag extends JDialog {
         }
     }
 
-    private void addStatus(String msg, boolean isSuccess, boolean IsNewLine) {
+    void addStatus(String msg, boolean isSuccess, boolean IsNewLine) {
         try {
             if (IsNewLine) {
                 msg += "\n";
@@ -162,72 +166,9 @@ public class BstDiag extends JDialog {
         }
     }
 
-    private void refreshTreePanel() {
+    void refreshTreePanel() {
         bstPanel.repaint();
         bstPanel.revalidate();
     }
-    enum TraversalType {
-        INORDER_TRAVERSAL,
-        POSTORDER_TRAVERSAL,
-        PREORDER_TRAVERSAL,
-    };
 
-    private class TraversalListener implements ActionListener, INodeVistor, Runnable{
-        BstNode lastNode = null;
-        boolean isFirstNode = true;
-        TraversalType traversalType;
-        public void actionPerformed(ActionEvent actionEvent) {
-            Thread thr = new Thread(this);
-            thr.start();
-        }
-
-        TraversalListener(TraversalType traversalType) {
-            this.traversalType = traversalType;
-        }
-
-        public void nodeVisited(BstNode node) {
-            bstPanel.selectNode(node);
-            refreshTreePanel();
-            String msg;
-            if (!isFirstNode) {
-                msg = ","  + node.getTextValue();
-            } else {
-                isFirstNode = false;
-                msg = node.getTextValue();
-            }
-            addStatus(msg, true, false);
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            lastNode = node;
-        }
-
-        public void run() {
-            String msg ="";
-            switch (traversalType) {
-                case INORDER_TRAVERSAL:
-                    msg= "Inorder traversal: ";
-                    addStatus(msg,true,false);
-                    tree.inorder(tree.getRoot(),this);
-                    break;
-                case POSTORDER_TRAVERSAL:
-                    msg= "Postorder traversal: ";
-                    addStatus(msg,true,false);
-                    tree.postorder(tree.getRoot(),this);
-                    break;
-                case PREORDER_TRAVERSAL:
-                    msg= "Preorder traversal: ";
-                    addStatus(msg,true,false);
-                    tree.preorder(tree.getRoot(),this);
-                    break;
-            }
-            addStatus("",true,true);
-            if (lastNode != null) {
-                bstPanel.selectNode(lastNode,false);
-                refreshTreePanel();
-            }
-        }
-    }
 }
