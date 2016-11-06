@@ -1,12 +1,10 @@
-package org.dsl.list;
+package org.visualds.list;
 
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.Random;
-
-import static org.testng.Assert.*;
 
 /**
  * Created by rajesh on 13/8/16.

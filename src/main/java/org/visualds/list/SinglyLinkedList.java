@@ -1,4 +1,4 @@
-package org.dsl.list;
+package org.visualds.list;
 
 public class SinglyLinkedList<T> {
 

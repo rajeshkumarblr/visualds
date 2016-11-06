@@ -1,4 +1,4 @@
-package org.dsl.puzzles;
+package org.visualds.puzzles;
 
 import java.util.Arrays;
 import java.util.Collections;

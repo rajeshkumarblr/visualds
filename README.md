@@ -18,7 +18,7 @@ Any member is welcome to contribute and extend this.
 * Install Git for your OS. For windows, download and install Git from here: https://git-scm.com/download/win
   For Ubuntu/other linux install git with "sudo apt-get install git"
 
-* Get the DSlearn repo cloned in your PC using this command "git clone https://rajeshkt@bitbucket.org/rajeshkt/dslearn.git"
+* Get the DSlearn repo cloned in your PC using this command "git clone https://github.com/rajeshkumarblr/visualds.git"
 
 * Open IntelliJ IDE. Do File-> Open form main menu and point to the "<local dir repo>\dslearn\build.gradle" in the toplevel directory
   where you have have cloned the repo.

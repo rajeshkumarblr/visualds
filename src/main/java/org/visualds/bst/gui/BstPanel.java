@@ -1,7 +1,7 @@
-package org.dsl.bst.gui;
+package org.visualds.bst.gui;
 
-import org.dsl.bst.Bst;
-import org.dsl.bst.BstNode;
+import org.visualds.bst.Bst;
+import org.visualds.bst.BstNode;
 
 import javax.swing.*;
 import java.awt.*;

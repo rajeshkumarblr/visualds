@@ -1,6 +1,6 @@
-package org.dsl.bst.gui;
+package org.visualds.bst.gui;
 
-import org.dsl.bst.BstNode;
+import org.visualds.bst.BstNode;
 
 /**
  * Created by rajesh on 26/9/16.

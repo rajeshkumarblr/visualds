@@ -1,12 +1,12 @@
-package org.dsl.bst.gui;
+package org.visualds.bst.gui;
 
-import org.dsl.bst.Bst;
-import org.dsl.bst.BstNode;
-import org.dsl.bst.gui.functionaliities.FindCommonAncestorListener;
-import org.dsl.bst.gui.functionaliities.FindShortestPathListener;
-import org.dsl.bst.gui.functionaliities.MirrorTreeListener;
-import org.dsl.bst.gui.functionaliities.ShowTopviewListener;
-import org.dsl.bst.gui.functionaliities.TraversalListener;
+import org.visualds.bst.Bst;
+import org.visualds.bst.BstNode;
+import org.visualds.bst.gui.functionaliities.FindCommonAncestorListener;
+import org.visualds.bst.gui.functionaliities.FindShortestPathListener;
+import org.visualds.bst.gui.functionaliities.MirrorTreeListener;
+import org.visualds.bst.gui.functionaliities.ShowTopviewListener;
+import org.visualds.bst.gui.functionaliities.TraversalListener;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;

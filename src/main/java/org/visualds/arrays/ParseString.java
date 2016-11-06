@@ -1,4 +1,4 @@
-package org.dsl.arrays;
+package org.visualds.arrays;
 
 import java.util.Scanner;
 

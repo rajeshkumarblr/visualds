@@ -1,4 +1,4 @@
-package org.dsl.bst;
+package org.visualds.bst;
 
 /**
  * Created by rajesh on 25/9/16.

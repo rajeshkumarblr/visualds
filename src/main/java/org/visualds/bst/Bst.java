@@ -1,6 +1,6 @@
-package org.dsl.bst;
+package org.visualds.bst;
 
-import org.dsl.bst.gui.INodeVisitor;
+import org.visualds.bst.gui.INodeVisitor;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;

@@ -1,10 +1,10 @@
-package org.dsl.bst.gui.functionaliities;
+package org.visualds.bst.gui.functionaliities;
 
-import org.dsl.bst.Bst;
-import org.dsl.bst.BstNode;
-import org.dsl.bst.gui.BstDiag;
-import org.dsl.bst.gui.BstPanel;
-import org.dsl.bst.gui.INodeVisitor;
+import org.visualds.bst.Bst;
+import org.visualds.bst.BstNode;
+import org.visualds.bst.gui.BstDiag;
+import org.visualds.bst.gui.BstPanel;
+import org.visualds.bst.gui.INodeVisitor;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
