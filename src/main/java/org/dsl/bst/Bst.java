@@ -3,6 +3,7 @@ package org.dsl.bst;
 import org.dsl.bst.gui.INodeVisitor;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Bst<T extends Comparable<T>> {
 
@@ -28,7 +29,6 @@ public class Bst<T extends Comparable<T>> {
         while (tmp != null) {
             insNode.parentNode = tmp;
             if (data.compareTo(tmp.data) < 0) {
-            //if (data <= tmp.data) {
                 insNode.isLeft = true;
                 tmp = tmp.left;
             } else {
@@ -142,6 +142,72 @@ public class Bst<T extends Comparable<T>> {
         }
     }
 
+    public boolean isParent(BstNode parentNode, BstNode childNode) {
+        return ((parentNode.getLeft() == childNode) || (parentNode.getRight() == childNode));
+    }
+
+    BstNode getNextNodeInPathTo(BstNode destNode, BstNode currentNode, AtomicBoolean isNodeFound) {
+        isNodeFound.set(false);
+        if (currentNode == null) return null;
+        int result = destNode.getData().compareTo(currentNode.getData());
+        if (result== 0) {
+            isNodeFound.set(true);
+            return currentNode;
+        } else if (result > 0) {
+            return currentNode.getRight();
+        } else if (result < 0) {
+            return currentNode.getLeft();
+        }
+        return  null;
+    }
+
+
+    public  BstNode findCommonAncestorNode(BstNode node1, BstNode node2) {
+        BstNode currentNode1 = root;
+        BstNode currentNode2 = root;
+
+        BstNode ancestorNode = null;
+        while (currentNode1 == currentNode2) {
+            ancestorNode = currentNode1;
+            AtomicBoolean isNodeFound1 = new AtomicBoolean(false);
+            currentNode1 = getNextNodeInPathTo(node1, currentNode1,isNodeFound1);
+            AtomicBoolean isNodeFound2 = new AtomicBoolean(false);
+            currentNode2 = getNextNodeInPathTo(node2, currentNode2, isNodeFound2);
+            if ((currentNode1 == null) || (currentNode2 == null)) {
+                break;
+            }
+            if (isNodeFound1.get() && isParent(currentNode1,currentNode2)) {
+                ancestorNode = currentNode1;
+                break;
+            }
+            if (isNodeFound2.get() && isParent(currentNode2,currentNode1)) {
+                ancestorNode = currentNode2;
+                break;
+            }
+        };
+        return  ancestorNode;
+    }
+
+    public ArrayList<BstNode> getShortestPath(BstNode node1, BstNode  node2) {
+        ArrayList<BstNode> nodes = new ArrayList<BstNode>();
+        BstNode ancestorNode = findCommonAncestorNode(node1, node2);
+        BstNode node = ancestorNode;
+        AtomicBoolean isNodeFound = new AtomicBoolean(false);
+        while (node != node1) {
+            nodes.add(node);
+            node = getNextNodeInPathTo(node1, node, isNodeFound);
+        }
+        Collections.reverse(nodes);
+        node = ancestorNode;
+        while (node != node2) {
+            nodes.add(node);
+            node = getNextNodeInPathTo(node2, node, isNodeFound);
+        }
+        nodes.add(node2);
+        return nodes;
+    }
+
+
     public void preorder(BstNode nd, INodeVisitor vistor) {
         if (nd != null) {
             vistor.nodeVisited(nd);
@@ -181,29 +247,6 @@ public class Bst<T extends Comparable<T>> {
         } else {
             return 0;
         }
-    }
-
-    ArrayList<BstNode> getLevelOrderNodes(BstNode root) {
-        if (root == null) {
-            return  null;
-        }
-        ArrayList<BstNode> nodes = new ArrayList<BstNode>();
-        nodes.add(root);
-        int index = 0;
-        do {
-            BstNode current = nodes.get(index);
-            if (current != null) {
-                if (current.left != null) {
-                    nodes.add(current.left);
-                }
-                if (current.right != null) {
-                    nodes.add(current.right);
-                }
-            }
-            index++;
-        } while (index < nodes.size());
-
-        return nodes;
     }
 
     public int getHeight() {  //Ram
@@ -282,6 +325,29 @@ public class Bst<T extends Comparable<T>> {
             tree.insert(val);
         }
         return tree;
+    }
+
+    public ArrayList<BstNode> getTopViewNodes() {
+        ArrayList<BstNode> nodes = new ArrayList<BstNode>();
+        BstNode node = root;
+        while (node!= null) {
+            nodes.add(node);
+            if (node.left == null) {
+                node = node.right;
+            } else  {
+                node = node.left;
+            }
+        }
+        node = root;
+        while (node!= null) {
+            nodes.add(node);
+            if (node.right == null) {
+                node = node.left;
+            } else  {
+                node = node.right;
+            }
+        }
+        return nodes;
     }
 
 }

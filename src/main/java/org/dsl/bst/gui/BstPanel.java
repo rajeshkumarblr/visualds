@@ -12,10 +12,10 @@ import java.util.HashMap;
 /*
  * A Viewer for Binary Trees.
  */
-public class BstPanel<T extends Comparable<T>> extends JPanel {
+public class BstPanel extends JPanel {
 
     /* The tree currently being display */
-    protected Bst<T> tree;
+    protected Bst tree;
 
     /* The font for the tree nodes. */
     protected Font font = new Font("Roman", 0, 14);
@@ -42,10 +42,14 @@ public class BstPanel<T extends Comparable<T>> extends JPanel {
     /*
      * Set the display to show the given tree.
      */
-    public void setTree(Bst<T> tree) {
+    public void setTree(Bst tree) {
         this.tree = tree;
         maxheight = tree.getHeight();
         nodeRectData = new HashMap<BstNode, BstNodeInfo>();
+    }
+
+    public Bst getTree() {
+        return  tree;
     }
 
     /*
@@ -98,26 +102,26 @@ public class BstPanel<T extends Comparable<T>> extends JPanel {
      * starting at location y in the y-direction.  Levels of the tree
      * will be separated by yStep pixels.
      */
-    protected void drawTree(Graphics g, int minX, int maxX,  int y, int yStep, BstNode node) {
+    protected void drawTree(Graphics g, int minX, int maxX,  int y, float yStep, BstNode node) {
 
         Dimension textDimension = null;
-        textDimension = drawNode(g, minX, maxX, y, yStep, node);
+        textDimension = drawNode(g, minX, maxX, y, (int) yStep, node);
 
         int xcentre = (minX + maxX)/2;
-        int ycentre = y + yStep/2;
+        int ycentre = y + (int) yStep/2;
         int xSep = Math.min((maxX - minX)/8, 10);
 
         g.setColor(Color.BLUE);
         if (node.getLeft() != null) {
             // if left tree not empty, draw line to it and recursively // draw that tree
-            g.drawLine(xcentre - xSep, ycentre + 5, (minX + xcentre) / 2, ycentre + yStep - textDimension.height);
-            drawTree(g, minX, xcentre, y + yStep, yStep, node.getLeft());
+            g.drawLine(xcentre - xSep, ycentre + 5, (minX + xcentre) / 2, ycentre + (int) yStep - textDimension.height);
+            drawTree(g, minX, xcentre, y + (int)yStep, yStep, node.getLeft());
         }
 
         if (node.getRight() != null) {
             // same thing for right subtree.
-            g.drawLine(xcentre + xSep, ycentre + 5, (maxX + xcentre) / 2, ycentre + yStep - textDimension.height);
-            drawTree(g, (minX + maxX)/2, maxX, y + yStep, yStep, node.getRight());
+            g.drawLine(xcentre + xSep, ycentre + 5, (maxX + xcentre) / 2, ycentre + (int) yStep - textDimension.height);
+            drawTree(g, (minX + maxX)/2, maxX, y + (int) yStep, yStep, node.getRight());
         }
     }
 
@@ -126,6 +130,8 @@ public class BstPanel<T extends Comparable<T>> extends JPanel {
             BstNodeInfo info = nodeRectData.get(node);
             if (node != selectNode) {
                 info.isSelected = false;
+            } else {
+                info.isSelected = true;
             }
         }
     }
@@ -172,7 +178,7 @@ public class BstPanel<T extends Comparable<T>> extends JPanel {
         nodeRectData.put(node, info);
     }
 
-    ArrayList<BstNode> getSelectedNodes() {
+    public ArrayList<BstNode> getSelectedNodes() {
         ArrayList<BstNode> nodes = new ArrayList<BstNode>();
         for (BstNode node: nodeRectData.keySet()) {
             BstNodeInfo info = nodeRectData.get(node);
@@ -193,8 +199,9 @@ public class BstPanel<T extends Comparable<T>> extends JPanel {
             int width = getWidth();
             int height = getHeight();
             int treeHeight = Math.max(tree.getHeight(), maxheight);
+            float ystep = (float) height / treeHeight;
 
-            drawTree(g, 0, width, 0, height / (treeHeight + 1), tree.getRoot());
+            drawTree(g, 0, width, 0, ystep, tree.getRoot());
         }
     }
 

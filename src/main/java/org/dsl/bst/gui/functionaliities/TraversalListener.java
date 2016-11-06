@@ -1,6 +1,10 @@
-package org.dsl.bst.gui;
+package org.dsl.bst.gui.functionaliities;
 
+import org.dsl.bst.Bst;
 import org.dsl.bst.BstNode;
+import org.dsl.bst.gui.BstDiag;
+import org.dsl.bst.gui.BstPanel;
+import org.dsl.bst.gui.INodeVisitor;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,9 +12,9 @@ import java.awt.event.ActionListener;
 /**
  * Created by rajesh on 28/9/16.
  */
-class TraversalListener implements ActionListener, INodeVisitor, Runnable {
+public class TraversalListener implements ActionListener, INodeVisitor, Runnable {
 
-    enum TraversalType {
+    public enum TraversalType {
         INORDER_TRAVERSAL,
         POSTORDER_TRAVERSAL,
         PREORDER_TRAVERSAL,
@@ -18,6 +22,7 @@ class TraversalListener implements ActionListener, INodeVisitor, Runnable {
     }
 
     private BstDiag bstDiag;
+    private Bst tree;
     private BstPanel bstPanel;
     BstNode lastNode = null;
     boolean isFirstNode = true;
@@ -28,15 +33,17 @@ class TraversalListener implements ActionListener, INodeVisitor, Runnable {
         thr.start();
     }
 
-    TraversalListener(BstDiag bstDiag, TraversalType traversalType) {
+    public TraversalListener(BstDiag bstDiag, TraversalType traversalType) {
         this.bstDiag = bstDiag;
         this.bstPanel = bstDiag.getBstPanel();
         this.traversalType = traversalType;
+        this.tree = bstPanel.getTree();
+        bstPanel.getTree();
     }
 
     public void nodeVisited(BstNode node) {
         bstPanel.selectNode(node);
-        bstDiag.refreshTreePanel();
+        bstPanel.refresh();
         String msg;
         if (!isFirstNode) {
             msg = "," + node.getTextValue();
@@ -59,28 +66,28 @@ class TraversalListener implements ActionListener, INodeVisitor, Runnable {
             case INORDER_TRAVERSAL:
                 msg = "Inorder traversal: ";
                 bstDiag.addStatus(msg, true, false);
-                bstDiag.tree.inorder(bstDiag.tree.getRoot(), this);
+                tree.inorder(tree.getRoot(), this);
                 break;
             case POSTORDER_TRAVERSAL:
                 msg = "Postorder traversal: ";
                 bstDiag.addStatus(msg, true, false);
-                bstDiag.tree.postorder(bstDiag.tree.getRoot(), this);
+                tree.postorder(tree.getRoot(), this);
                 break;
             case PREORDER_TRAVERSAL:
                 msg = "Preorder traversal: ";
                 bstDiag.addStatus(msg, true, false);
-                bstDiag.tree.preorder(bstDiag.tree.getRoot(), this);
+                tree.preorder(tree.getRoot(), this);
                 break;
             case LEVELORDER_TRAVERSAL:
                 msg = "Levelorder traversal: ";
                 bstDiag.addStatus(msg, true, false);
-                bstDiag.tree.levelOrder(bstDiag.tree.getRoot(), this);
+                tree.levelOrder(tree.getRoot(), this);
                 break;
         }
         bstDiag.addStatus("", true, true);
         if (lastNode != null) {
             bstPanel.selectNode(lastNode, false);
-            bstDiag.refreshTreePanel();
+            bstPanel.refresh();
         }
     }
 

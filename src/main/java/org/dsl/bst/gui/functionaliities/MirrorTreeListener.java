@@ -1,7 +1,8 @@
-package org.dsl.bst.gui;
+package org.dsl.bst.gui.functionaliities;
 
 import org.dsl.bst.Bst;
 import org.dsl.bst.BstNode;
+import org.dsl.bst.gui.BstPanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,12 +10,12 @@ import java.awt.event.ActionListener;
 /**
  * Created by rajesh on 29/9/16.
  */
-class MirrorTreeListener implements ActionListener {
+public class MirrorTreeListener implements ActionListener {
 
     private final Bst tree;
     private final BstPanel bstPanel;
 
-    MirrorTreeListener(Bst tree, BstPanel bstPanel) {
+    public MirrorTreeListener(Bst tree, BstPanel bstPanel) {
         this.tree = tree;
         this.bstPanel = bstPanel;
     }

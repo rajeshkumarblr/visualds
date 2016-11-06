@@ -2,6 +2,11 @@ package org.dsl.bst.gui;
 
 import org.dsl.bst.Bst;
 import org.dsl.bst.BstNode;
+import org.dsl.bst.gui.functionaliities.FindCommonAncestorListener;
+import org.dsl.bst.gui.functionaliities.FindShortestPathListener;
+import org.dsl.bst.gui.functionaliities.MirrorTreeListener;
+import org.dsl.bst.gui.functionaliities.ShowTopviewListener;
+import org.dsl.bst.gui.functionaliities.TraversalListener;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
@@ -17,7 +22,7 @@ import java.util.*;
 
 public class BstDiag extends JDialog {
     private JPanel contentPane;
-    private BstPanel<Integer> bstPanel;
+    private BstPanel bstPanel;
     private JButton insertButton;
     private JButton btnRandomBST;
     private JButton deleteNodeButton;
@@ -30,6 +35,10 @@ public class BstDiag extends JDialog {
     private JButton btnPostorderTraversal;
     private JButton btnLevelOrderTraversal;
     private JButton btnMirrorTree;
+    private JButton btnClearStatus;
+    private JLabel lblStatus;
+    private JButton btnFindShortestPath;
+    private JButton btnShowTopView;
     Bst<Integer> tree;
     StyledDocument docStyle;
     Style failureStyle;
@@ -58,6 +67,9 @@ public class BstDiag extends JDialog {
         btnLevelOrderTraversal.addActionListener(new TraversalListener(this, TraversalListener.TraversalType.LEVELORDER_TRAVERSAL));
         findCommonAncestorButton.addActionListener(new FindCommonAncestorListener(this));
         btnMirrorTree.addActionListener(new MirrorTreeListener(tree,bstPanel));
+        btnClearStatus.addActionListener(new ClearActionListener());
+        btnFindShortestPath.addActionListener(new FindShortestPathListener(this));
+        btnShowTopView.addActionListener(new ShowTopviewListener(this));
     }
 
     public static void main(String[] args) {
@@ -69,15 +81,21 @@ public class BstDiag extends JDialog {
         System.exit(0);
     }
 
-    public BstPanel<Integer> getBstPanel() {
+    public BstPanel getBstPanel() {
         return bstPanel;
     }
 
     private void createUIComponents() {
-        bstPanel = new BstPanel<Integer>();
+        bstPanel = new BstPanel();
         tree = Bst.createRandomeBst();
         bstPanel.setTree(tree);
         bstPanel.setBorder(BorderFactory.createBevelBorder(1));
+    }
+
+    private class ClearActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent actionEvent) {
+            statusPane.setText("");
+        }
     }
 
     private class TreeHeightListener implements ActionListener {
@@ -151,7 +169,7 @@ public class BstDiag extends JDialog {
         }
     }
 
-    void addStatus(String msg, boolean isSuccess, boolean IsNewLine) {
+    public void addStatus(String msg, boolean isSuccess, boolean IsNewLine) {
         try {
             if (IsNewLine) {
                 msg += "\n";

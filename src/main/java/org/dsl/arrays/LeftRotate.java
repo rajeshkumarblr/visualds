@@ -1,4 +1,4 @@
-package org.dsl.org.dsl.array;
+package org.dsl.arrays;
 
 import java.util.Scanner;
 
